@@ -1,0 +1,36 @@
+---
+
+- name: run the playbook tasks on the localhost
+  hosts: 127.0.0.1
+  connection: local
+  vars: 
+  -  distro_selected:
+  tasks:
+
+  - name: copypaste fedora 29 image to usbstick
+    command: dd if=/home/demo/Downloads/fedora.iso of=/dev/sdb bs=1M status=progress oflag=direct
+    when: distro_selected == "Fedora 29"
+
+  - name: copypaste rhel 8 beta image to usbstick
+    command: dd if=/home/demo/Downloads/rhel8beta.iso of=/dev/sdb bs=1M status=progress oflag=direct
+    when: distro_selected == "RHEL 8 Beta"
+
+  - name: copypaste centos7 image to usbstick
+    command: dd if=/home/demo/Downloads/centos7.iso of=/dev/sdb bs=1M status=progress oflag=direct
+    when: distro_selected == "CentOS 7"
+
+  - name: copypaste fedora 30 image to usbstick
+    command: dd if=/home/demo/Downloads/fedora30.iso of=/dev/sdb bs=1M status=progress oflag=direct
+    when: distro_selected == "Fedora 30"
+
+  - name: troll ubuntu arch users
+    script: /var/lib/awx/projects/getrhel8/GetRHEL.sh
+    when: distro_selected == "Debian" or
+          distro_selected == "Devuan" or
+          distro_selected == "OpenSuse" or
+          distro_selected == "Arch Linux" or
+          distro_selected == "Ubuntu"
+
+  - name: sync
+    command: sync
+
